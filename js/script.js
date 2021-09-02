@@ -9,7 +9,7 @@ const loadBooksFunction = keyword => {
     const url = `https://openlibrary.org/search.json?q=${keyword}`;     // Calling API
     fetch(url)
         .then(response => response.json())
-        .then(books => displayBooks(books.docs));
+        .then(books => displayBooks(books));
 }
 
 // Search books
@@ -31,12 +31,12 @@ const getCoverImage = coverImage => {
 
 // Display books
 const displayBooks = books => {
-    if (books.length === 0) {
+    if (books.numFound === 0) {
         loadingElement.innerText = `Sorry! No books found!`;
         return;
     }
-    loadingElement.innerText = `${books.length} books found!`;      // Showing the result
-    const showTwelveBooks = books.slice(0, 12);                     // Only show first 12 books
+    loadingElement.innerText = `${books.numFound} books found!`;      // Showing the result
+    const showTwelveBooks = books.docs.slice(0, 12);                  // Only show first 12 books
     showTwelveBooks.forEach(book => {
         const bookPublisher = book.publisher !== undefined ? book.publisher : 'N/A';
         const bookFirstPublishYear = book.first_publish_year !== undefined ? book.first_publish_year : 'N/A';
